@@ -1,48 +1,47 @@
-function Lego(fun) {
-    this.fun = fun
+var isCatchBlockSymbol = Symbol("isCatchBlock")
+
+function Lego(cb) {
+    this.cb = cb
 }
 
 Lego.prototype = {
-    fun: () => undefined,
-    next: null,
+    cb: () => undefined,
     parent: null,
     then(cb) {
         var lego = new Lego(cb)
-        this.next = lego
         lego.parent = this
-        var wrapedFun = () => lego.resolve()
+        wrapedFun = (args) => lego.resolve(args)
         wrapedFun.then = lego.then.bind(lego)
         wrapedFun.catch = lego.catch.bind(lego)
         return wrapedFun
     },
     catch(cb) {
         var lego = new Lego(cb)
-        this.next = lego
         lego.parent = this
-        lego.resolve = lego.parent && lego.parent.resolve.bind(lego.parent, true, lego)
-        var wrapedFun = () => lego.resolve()
+        lego[isCatchBlockSymbol] = true
+        wrapedFun = (args) => lego.resolve(args)
         wrapedFun.then = lego.then.bind(lego)
         wrapedFun.catch = lego.catch.bind(lego)
         return wrapedFun
     },
-    resolve(hasFutureCatch, onError) {
+    resolve(args) {
         var result;
-        try {
-            result = this.parent && this.parent.resolve(hasFutureCatch);
-            return this.fun(result)
-        } catch (e) {
-            if (!hasFutureCatch) {
-                console.error("Unhandled lego rejection")
-                return undefined
+        if (this[isCatchBlockSymbol]) {
+            try {
+                result = args || (this.parent && this.parent.resolve())
+            } catch (e) {
+                return this.cb(e);
             }
-            return onError.fun()
+        } else {
+            result = args || (this.parent && this.parent.resolve())
+            return this.cb(result)
         }
     }
 }
 
 function makeLego(cb) {
     var lego = new Lego(cb)
-    var wrapedFun = () => lego.resolve()
+    wrapedFun = (args) => lego.resolve(args)
     wrapedFun.then = lego.then.bind(lego)
     wrapedFun.catch = lego.catch.bind(lego)
     return wrapedFun

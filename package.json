@@ -1,0 +1,23 @@
+{
+  "name": "lego",
+  "version": "1.0.0",
+  "description": "lego.js is a library for writing interactive procedures",
+  "main": "Lego.test.js",
+  "dependencies": {},
+  "devDependencies": {
+    "jest": "^23.6.0"
+  },
+  "scripts": {
+    "test": "jest --watch *.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YousifHmada/Lego.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YousifHmada/Lego/issues"
+  },
+  "homepage": "https://github.com/YousifHmada/Lego#readme"
+}

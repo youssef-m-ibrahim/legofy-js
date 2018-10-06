@@ -28,12 +28,14 @@ Lego.prototype = {
         var result;
         if (this[isCatchBlockSymbol]) {
             try {
-                result = args || (this.parent && this.parent.resolve())
+                result = (this.parent === null) ? args : this.parent.resolve(args)
             } catch (e) {
-                return this.cb(e);
+                result = e.message
+                return this.cb(result)
             }
+            return result
         } else {
-            result = args || (this.parent && this.parent.resolve())
+            result = (this.parent === null) ? args : this.parent.resolve(args)
             return this.cb(result)
         }
     }

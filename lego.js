@@ -1,4 +1,4 @@
-var isCatchBlockSymbol = Symbol("isCatchBlock")
+const isCatchBlockSymbol = Symbol("isCatchBlock")
 
 function Lego(cb) {
     this.cb = cb
@@ -30,12 +30,18 @@ Lego.prototype = {
             try {
                 result = (this.parent === null) ? args : this.parent.resolve(args)
             } catch (e) {
-                result = e.message
+                result = e && e.message
                 return this.cb(result)
+            }
+            if (result !== undefined && result.then && result.catch) {
+                return result.catch(this.cb)
             }
             return result
         } else {
             result = (this.parent === null) ? args : this.parent.resolve(args)
+            if (result !== undefined && result.then && result.catch) {
+                return result.then(this.cb)
+            }
             return this.cb(result)
         }
     }

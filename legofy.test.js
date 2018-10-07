@@ -1,35 +1,36 @@
 const legofy = require('./legofy')
 
 describe('It should act in a Sync fashion', () => {
+
     it('should resolve right (Example 1)', () => {
-        var fun = legofy((num) => num * 2)
-        expect(fun(2)).toBe(4)
+        var lego = legofy((num) => num * 2)
+        expect(lego(2)).toBe(4)
     })
 
     it('should resolve right (Example 2)', () => {
-        var fun = legofy(() => 2)
-        expect(fun()).toBe(2)
+        var lego = legofy(() => 2)
+        expect(lego()).toBe(2)
     })
 
     it('should resolve right (Example 3)', () => {
-        var fun = legofy(() => 2)
+        var lego = legofy(() => 2)
             .then(num => num + 1)
             .then(num => num * 2)
             .then(num => num + 3)
-        expect(fun()).toBe(9)
+        expect(lego()).toBe(9)
     })
 
     it('should reject (Example 1)', () => {
-        var fun = legofy(() => { throw new Error("no way") })
+        var lego = legofy(() => { throw new Error("no way") })
             .catch(e => {
                 expect(e).toBe("no way")
                 return "lol"
             })
-        expect(fun()).toBe("lol")
+        expect(lego()).toBe("lol")
     })
 
     it('should reject (Example 2)', () => {
-        var fun = legofy(() => { throw new Error("no way") })
+        var lego = legofy(() => { throw new Error("no way") })
             .catch(e => {
                 expect(e).toBe("no way")
                 throw new Error("yes way")
@@ -38,11 +39,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(e).toBe("yes way")
                 return "lol"
             })
-        expect(fun(2)).toBe("lol")
+        expect(lego(2)).toBe("lol")
     })
 
     it('should reject (Example 3)', () => {
-        var fun = legofy(() => { throw new Error("no way") })
+        var lego = legofy(() => { throw new Error("no way") })
             .then(() => {
                 expect(true).toBe(false)
             })
@@ -54,11 +55,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(e).toBe("yes way")
                 return 2
             })
-        expect(fun(2)).toBe(2)
+        expect(lego(2)).toBe(2)
     })
 
     it('should reject and then resolve (Example 4)', () => {
-        var fun = legofy(() => { throw new Error("no way") })
+        var lego = legofy(() => { throw new Error("no way") })
             .catch(e => {
                 expect(e).toBe("no way")
                 throw new Error("yes way")
@@ -70,11 +71,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(e).toBe("yes way")
                 return 4
             })
-        expect(fun()).toBe(4)
+        expect(lego()).toBe(4)
     })
 
     it('should reject and then resolve (Example 5)', () => {
-        var fun = legofy(() => { throw new Error("no way") })
+        var lego = legofy(() => { throw new Error("no way") })
             .catch(e => {
                 expect(e).toBe("no way")
                 throw new Error("yes way")
@@ -90,11 +91,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(res).toBe(5)
                 return 4
             })
-        expect(fun()).toBe(4)
+        expect(lego()).toBe(4)
     })
 
     it('happy path (Example 1)', () => {
-        var fun = legofy((arg) => arg * 2)
+        var lego = legofy((arg) => arg * 2)
             .then(arg => {
                 expect(arg).toBe(4)
                 return arg + 1
@@ -111,11 +112,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(res).toBe(7)
                 return 8
             })
-        expect(fun(2)).toBe(8)
+        expect(lego(2)).toBe(8)
     })
 
     it('not really (Example 1)', () => {
-        var fun = legofy((arg) => arg * 2)
+        var lego = legofy((arg) => arg * 2)
             .then(arg => {
                 expect(arg).toBe(4)
                 return arg + 1
@@ -138,11 +139,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(res).toBe(7)
                 return 8
             })
-        expect(fun(2)).toBe(8)
+        expect(lego(2)).toBe(8)
     })
 
     it('not really (Example 2)', () => {
-        var fun = legofy((arg) => arg * 2)
+        var lego = legofy((arg) => arg * 2)
             .catch(m => {
                 expect(true).toBe(false)
             })
@@ -167,11 +168,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(res).toBe(6)
                 return res + 1
             })
-        expect(fun(2)).toBe(7)
+        expect(lego(2)).toBe(7)
     })
 
     it('not really (Example 3)', () => {
-        var fun = legofy((arg) => { throw new Error("watch out!") })
+        var lego = legofy((arg) => { throw new Error("watch out!") })
             .catch(e => {
                 expect(e).toBe("watch out!")
                 return 1
@@ -197,11 +198,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(res).toBe(3)
                 return res + 1
             })
-        expect(fun(2)).toBe(4)
+        expect(lego(2)).toBe(4)
     })
 
     it('not really (Example 4)', () => {
-        var fun = legofy((arg) => { throw new Error("watch out!") })
+        var lego = legofy((arg) => { throw new Error("watch out!") })
             .catch(e => {
                 expect(e).toBe("watch out!")
                 return 1
@@ -228,11 +229,11 @@ describe('It should act in a Sync fashion', () => {
                 expect(res).toBe(5)
                 return 6
             })
-        expect(fun(2)).toBe(6)
+        expect(lego(2)).toBe(6)
     })
 
     it('not really (Example 5)', () => {
-        var fun = legofy((arg) => { throw new Error("watch out!") })
+        var lego = legofy((arg) => { throw new Error("watch out!") })
             .catch(e => {
                 expect(e).toBe("watch out!")
                 return 1
@@ -259,14 +260,16 @@ describe('It should act in a Sync fashion', () => {
                 expect(res).toBe(undefined)
                 return res
             })
-        expect(fun(2)).toBe(undefined)
+        expect(lego(2)).toBe(undefined)
     })
+
 })
 
 describe('It should act in an Async fashion', () => {
+
     it('should resolve right (Example 1)', (done) => {
-        var fun = legofy((num) => Promise.resolve(num * 2))
-        fun(2)
+        var lego = legofy((num) => Promise.resolve(num * 2))
+        lego(2)
             .then((res) => {
                 expect(res).toBe(4)
                 done()
@@ -274,8 +277,8 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('should resolve right (Example 2)', (done) => {
-        var fun = legofy(() => Promise.resolve(2))
-        fun()
+        var lego = legofy(() => Promise.resolve(2))
+        lego()
             .then((res) => {
                 expect(res).toBe(2)
                 done()
@@ -283,11 +286,11 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('should resolve right (Example 3)', (done) => {
-        var fun = legofy(() => 2)
+        var lego = legofy(() => 2)
             .then(num => Promise.resolve(num + 1))
             .then(num => num * 2)
             .then(num => num + 3)
-        fun()
+        lego()
             .then((res) => {
                 expect(res).toBe(9)
                 done()
@@ -295,12 +298,12 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('should reject (Example 1)', (done) => {
-        var fun = legofy(() => Promise.reject("no way"))
+        var lego = legofy(() => Promise.reject("no way"))
             .catch(e => {
                 expect(e).toBe("no way")
                 return "lol"
             })
-        fun()
+        lego()
             .then((res) => {
                 expect(res).toBe("lol")
                 done()
@@ -308,7 +311,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('should reject (Example 2)', (done) => {
-        var fun = legofy(() => { return Promise.reject("no way") })
+        var lego = legofy(() => { return Promise.reject("no way") })
             .catch(e => {
                 expect(e).toBe("no way")
                 return Promise.reject("yes way")
@@ -317,7 +320,7 @@ describe('It should act in an Async fashion', () => {
                 expect(e).toBe("yes way")
                 return "lol"
             })
-        fun()
+        lego()
             .then((res) => {
                 expect(res).toBe("lol")
                 done()
@@ -325,7 +328,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('should reject (Example 3)', (done) => {
-        var fun = legofy(() => { return Promise.reject("no way") })
+        var lego = legofy(() => { return Promise.reject("no way") })
             .then(() => {
                 expect(true).toBe(false)
             })
@@ -337,7 +340,7 @@ describe('It should act in an Async fashion', () => {
                 expect(e).toBe("yes way")
                 return 2
             })
-        fun()
+        lego()
             .then((res) => {
                 expect(res).toBe(2)
                 done()
@@ -345,7 +348,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('should reject and then resolve (Example 4)', (done) => {
-        var fun = legofy(() => { return Promise.reject("no way") })
+        var lego = legofy(() => { return Promise.reject("no way") })
             .catch(e => {
                 expect(e).toBe("no way")
                 return Promise.reject("yes way")
@@ -357,7 +360,7 @@ describe('It should act in an Async fashion', () => {
                 expect(e).toBe("yes way")
                 return 4
             })
-        fun()
+        lego()
             .then((res) => {
                 expect(res).toBe(4)
                 done()
@@ -365,7 +368,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('should reject and then resolve (Example 5)', (done) => {
-        var fun = legofy(() => { return Promise.reject("no way") })
+        var lego = legofy(() => { return Promise.reject("no way") })
             .catch(e => {
                 expect(e).toBe("no way")
                 return Promise.reject("yes way")
@@ -381,7 +384,7 @@ describe('It should act in an Async fashion', () => {
                 expect(res).toBe(5)
                 return 4
             })
-        fun()
+        lego()
             .then((res) => {
                 expect(res).toBe(4)
                 done()
@@ -389,7 +392,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('happy path (Example 1)', (done) => {
-        var fun = legofy((arg) => arg * 2)
+        var lego = legofy((arg) => arg * 2)
             .then(arg => {
                 expect(arg).toBe(4)
                 return arg + 1
@@ -406,7 +409,7 @@ describe('It should act in an Async fashion', () => {
                 expect(res).toBe(7)
                 return 8
             })
-        fun(2)
+        lego(2)
             .then((res) => {
                 expect(res).toBe(8)
                 done()
@@ -414,7 +417,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('not really (Example 1)', (done) => {
-        var fun = legofy((arg) => Promise.resolve(arg * 2))
+        var lego = legofy((arg) => Promise.resolve(arg * 2))
             .then(arg => {
                 expect(arg).toBe(4)
                 return arg + 1
@@ -437,7 +440,7 @@ describe('It should act in an Async fashion', () => {
                 expect(res).toBe(7)
                 return 8
             })
-        fun(2)
+        lego(2)
             .then((res) => {
                 expect(res).toBe(8)
                 done()
@@ -445,7 +448,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('not really (Example 2)', (done) => {
-        var fun = legofy((arg) => Promise.resolve(arg * 2))
+        var lego = legofy((arg) => Promise.resolve(arg * 2))
             .catch(m => {
                 expect(true).toBe(false)
             })
@@ -470,7 +473,7 @@ describe('It should act in an Async fashion', () => {
                 expect(res).toBe(6)
                 return res + 1
             })
-        fun(2)
+        lego(2)
             .then((res) => {
                 expect(res).toBe(7)
                 done()
@@ -478,7 +481,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('not really (Example 3)', (done) => {
-        var fun = legofy((arg) => { return Promise.reject("watch out!") })
+        var lego = legofy((arg) => { return Promise.reject("watch out!") })
             .catch(e => {
                 expect(e).toBe("watch out!")
                 return 1
@@ -504,7 +507,7 @@ describe('It should act in an Async fashion', () => {
                 expect(res).toBe(3)
                 return res + 1
             })
-        fun(2)
+        lego(2)
             .then((res) => {
                 expect(res).toBe(4)
                 done()
@@ -512,7 +515,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('not really (Example 4)', (done) => {
-        var fun = legofy((arg) => { return Promise.reject("watch out!") })
+        var lego = legofy((arg) => { return Promise.reject("watch out!") })
             .catch(e => {
                 expect(e).toBe("watch out!")
                 return 1
@@ -539,7 +542,7 @@ describe('It should act in an Async fashion', () => {
                 expect(res).toBe(5)
                 return 6
             })
-        fun(2)
+        lego(2)
             .then((res) => {
                 expect(res).toBe(6)
                 done()
@@ -547,7 +550,7 @@ describe('It should act in an Async fashion', () => {
     })
 
     it('not really (Example 5)', (done) => {
-        var fun = legofy((arg) => { return Promise.reject("watch out!") })
+        var lego = legofy((arg) => { return Promise.reject("watch out!") })
             .catch(e => {
                 expect(e).toBe("watch out!")
                 return 1
@@ -574,10 +577,302 @@ describe('It should act in an Async fashion', () => {
                 expect(res).toBe(undefined)
                 return res
             })
-        fun(2)
+        lego(2)
             .then((res) => {
                 expect(res).toBe(undefined)
                 done()
             })
     })
+
+})
+
+describe('legos can be extendable', () => {
+
+    it('sync happy path (Example 1)', () => {
+        var legoPiece = legofy((num) => num * 2)
+        var legoPiecePlus = legoPiece
+            .then(num => num + 1)
+        expect(legoPiece(3)).toBe(6)
+        expect(legoPiecePlus(3)).toBe(7)
+    })
+
+    it('sync happy path (Example 2)', () => {
+        var legoPiece = legofy((num) => num * 2)
+        var legoPiecePlus = legoPiece
+            .then(num => num + 1)
+        var legoPiecePlusPlus = legoPiecePlus
+            .then(num => num + 1)
+        expect(legoPiece(3)).toBe(6)
+        expect(legoPiecePlus(3)).toBe(7)
+        expect(legoPiecePlusPlus(3)).toBe(8)
+    })
+
+    it('sync happy path (Example 3)', () => {
+        var legoPiece = legofy((num) => num * 2)
+        var legoPiecePlus1 = legoPiece
+            .then(num => num + 1)
+        var legoPiecePlus2 = legoPiece
+            .then(num => num * 5)
+        expect(legoPiece(3)).toBe(6)
+        expect(legoPiecePlus1(3)).toBe(7)
+        expect(legoPiecePlus2(3)).toBe(30)
+    })
+
+    it('Async happy path (Example 1)', () => {
+        var legoPiece = legofy((num) => Promise.resolve(num * 2))
+        var legoPiecePlus = legoPiece
+            .then(num => num + 1)
+        Promise.all([
+            legoPiece(3)
+                .then((res) => {
+                    expect(res).toBe(6)
+                }),
+            legoPiecePlus(3)
+                .then((res) => {
+                    expect(res).toBe(7)
+                })
+        ])
+    })
+
+    it('Async happy path (Example 2)', () => {
+        var legoPiece = legofy((num) => Promise.resolve(num * 2))
+        var legoPiecePlus = legoPiece
+            .then(num => num + 1)
+        var legoPiecePlusPlus = legoPiecePlus
+            .then(num => num + 1)
+        Promise.all([
+            legoPiece(3)
+                .then((res) => {
+                    expect(res).toBe(6)
+                }),
+            legoPiecePlus(3)
+                .then((res) => {
+                    expect(res).toBe(7)
+                }),
+            legoPiecePlusPlus(3)
+                .then((res) => {
+                    expect(res).toBe(8)
+                })
+        ])
+    })
+
+    it('Async happy path (Example 3)', () => {
+        var legoPiece = legofy((num) => Promise.resolve(num * 2))
+        var legoPiecePlus1 = legoPiece
+            .then(num => num + 1)
+        var legoPiecePlus2 = legoPiece
+            .then(num => num * 5)
+        Promise.all([
+            legoPiece(3)
+                .then((res) => {
+                    expect(res).toBe(6)
+                }),
+            legoPiecePlus1(3)
+                .then((res) => {
+                    expect(res).toBe(7)
+                }),
+            legoPiecePlus2(3)
+                .then((res) => {
+                    expect(res).toBe(30)
+                })
+        ])
+    })
+
+    it('(Sync || Async) happy path (Example 1)', () => {
+        var legoPiece = legofy((num) => num * 2)
+        var legoPiecePlus = legoPiece
+            .then(num => Promise.resolve(num + 1))
+        expect(legoPiece(3)).toBe(6)
+        Promise.all([
+            legoPiecePlus(3)
+                .then((res) => {
+                    expect(res).toBe(7)
+                })
+        ])
+    })
+
+    it('(Sync || Async) happy path (Example 2)', () => {
+        var legoPiece = legofy((num) => num * 2)
+        var legoPiecePlus = legoPiece
+            .then(num => Promise.resolve(num + 1))
+        var legoPiecePlusPlus = legoPiecePlus
+            .then(num => Promise.resolve(num + 1))
+        expect(legoPiece(3)).toBe(6)
+        Promise.all([
+            legoPiecePlus(3)
+                .then((res) => {
+                    expect(res).toBe(7)
+                }),
+            legoPiecePlusPlus(3)
+                .then((res) => {
+                    expect(res).toBe(8)
+                })
+        ])
+    })
+
+    it('(Sync || Async) happy path (Example 3)', () => {
+        var legoPiece = legofy((num) => num * 2)
+        var legoPiecePlus1 = legoPiece
+            .then(num => Promise.resolve(num + 1))
+        var legoPiecePlus2 = legoPiece
+            .then(num => Promise.resolve(num * 5))
+        expect(legoPiece(3)).toBe(6)
+
+        Promise.all([
+            legoPiecePlus1(3)
+                .then((res) => {
+                    expect(res).toBe(7)
+                }),
+            legoPiecePlus2(3)
+                .then((res) => {
+                    expect(res).toBe(30)
+                })
+        ])
+    })
+
+    it('sync rejection scenario (Example 1)', () => {
+        var legoPiece = legofy(() => { throw new Error("lol") })
+        var legoPiecePlus1 = legoPiece
+            .catch(e => e + 1)
+        var legoPiecePlus2 = legoPiece
+            .catch(e => e + 2)
+        expect(legoPiecePlus1()).toBe("lol1")
+        expect(legoPiecePlus2()).toBe("lol2")
+    })
+
+    it('sync rejection scenario (Example 2)', () => {
+        var legoPiece = legofy(() => { throw new Error("lol") })
+        var legoPiecePlus1 = legoPiece
+            .catch(e => 1)
+        var legoPiecePlus2 = legoPiece
+            .catch(e => 2)
+        try {
+            legoPiece()
+        } catch (e) {
+            expect(e.message).toBe("lol")
+        }
+        expect(legoPiecePlus1()).toBe(1)
+        expect(legoPiecePlus2()).toBe(2)
+    })
+
+    it('sync rejection scenario (Example 3)', () => {
+        var legoPiece = legofy(() => { throw new Error("lol") })
+        var legoPiecePlus1 = legoPiece
+            .catch(e => {
+                expect(e).toBe("lol")
+                throw new Error("nope")
+            })
+            .catch(e => {
+                expect(e).toBe("nope")
+                return 1
+            })
+            .then(num => num * 2)
+        var legoPiecePlus2 = legoPiece
+            .catch(e => {
+                expect(e).toBe("lol")
+                return 2
+            })
+            .then(() => { throw new Error("nope") })
+            .catch(e => {
+                expect(e).toBe("nope")
+            })
+        try {
+            legoPiece()
+        } catch (e) {
+            expect(e.message).toBe("lol")
+        }
+        expect(legoPiecePlus1()).toBe(2)
+        expect(legoPiecePlus2()).toBe(undefined)
+    })
+
+})
+
+describe('legos concatenation', () => {
+
+    it('sync happy path (Example 1)forceErrorSybmol', () => {
+        var lego1 = legofy((num) => num * 2)
+        var lego2 = legofy((num) => num + 1)
+        var legoCon1 = lego1.concat(lego2)
+        var legoCon2 = lego2.concat(lego1)
+        expect(lego1(2)).toBe(4)
+        expect(lego2(2)).toBe(3)
+        var lego1 = null
+        var lego2 = null
+        expect(legoCon1(2)).toBe(5)
+        expect(legoCon2(2)).toBe(6)
+    })
+
+    it('Async happy path (Example 1)', () => {
+        var lego1 = legofy((num) => num * 2)
+        var lego2 = legofy((num) => Promise.resolve(num + 1))
+        var legoCon1 = lego1.concat(lego2)
+        var legoCon2 = lego2.concat(lego1)
+        expect(lego1(2)).toBe(4)
+        var p1 = lego2(2).then((res) => {
+            expect(res).toBe(3)
+        })
+        var lego1 = null
+        var lego2 = null
+        Promise.all([
+            p1,
+            legoCon1(2).then((res) => {
+                expect(res).toBe(5)
+            }),
+            legoCon2(2).then((res) => {
+                expect(res).toBe(6)
+            })
+        ])
+    })
+
+    it('Sync regection scenario (Example 1)', () => {
+        var lego1 = legofy(() => { throw new Error("lol") })
+        var lego2 = legofy((num) => num + 1)
+            .catch(e => {
+                expect(e).toBe("lol")
+                return 5
+            })
+            .then(num => num * 2)
+        var legoCon1 = lego1.concat(lego2)
+        var legoCon2 = lego2.concat(lego1)
+        try {
+            lego1()
+        } catch (e) {
+            expect(e.message).toBe("lol")
+        }
+        try {
+            legoCon2()
+        } catch (e) {
+            expect(e.message).toBe("lol")
+        }
+        expect(lego2(2)).toBe(6)
+        expect(legoCon1(2)).toBe(10)
+    })
+
+    it('Async regection scenario (Example 1)', (done) => {
+        var lego1 = legofy(() => Promise.reject("no way"))
+        var lego2 = legofy((num) => num + 1)
+            .catch(e => {
+                expect(e).toBe("no way")
+                return 5
+            })
+            .then(num => num * 2)
+        var legoCon1 = lego1.concat(lego2)
+        var legoCon2 = lego2.concat(lego1)
+        expect(lego2(2)).toBe(6)
+        Promise.all([
+            lego1()
+                .catch((res) => {
+                    expect(res).toBe("no way")
+                }),
+            legoCon1()
+                .then((res) => {
+                    expect(res).toBe(10)
+                }),
+            legoCon2()
+                .catch((res) => {
+                    expect(res).toBe("no way")
+                })
+        ]).then(() => done())
+    })
+
 })

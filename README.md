@@ -1,23 +1,23 @@
-# [lego]() &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/YousifHmada/Lego/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/lego.js-core/v/1.0.0)
-Lego is a JavaScript library for building modular extendable functions.
+# [lego]() &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/YousifHmada/legofy/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/lego.js-core/v/1.0.0)
+Legofy is a JavaScript library for building modular extendable functions.
 
-* **Declarative:** Lego let you use your modules in a very declarative way, it makes your code more predictable, simpler to understand, and easier to debug.
+* **Declarative:** Legofy let you use your modules in a very declarative way, it makes your code more predictable, simpler to understand, and easier to debug.
 * **Focused:** It handles both Sync and Async modules, so that you only focus on the steps and how to connect different modules.
 * **Promise-like syntax** You'll notice that we used an Promise-like syntax, so that writing it feels like home.
-[Learn how to use Lego in your own project]().
+[Learn how to use legofy in your own project]().
 
 ## Examples
 
 We have several examples [on the website](). Here are some to get you started:
 
 ```js
-var lego = Lego(num => num * 2)
+var lego = legofy(num => num * 2)
   .then(num=> num +1)
  
  lego(4) // 9
 ```
 ```js
-var lego = lego((arg) => arg * 2)
+var lego = legofy((arg) => arg * 2)
     .then(arg => {
         return arg + 2
     })
@@ -31,7 +31,7 @@ var lego = lego((arg) => arg * 2)
 lego(2) //10
 ```
 ```js
-var lego = lego(() => { throw new Error("no way") })
+var lego = legofy(() => { throw new Error("no way") })
     .catch(e => {
         e; //"no way"
         throw new Error("yes way")
@@ -52,7 +52,7 @@ Those examples show how you can declare legos and start using them in a promise 
 Legos will act sync when no async code found ie (Functions that returns a promise etc...)
 
 ```js
-var fun = lego((num) => Promise.resolve(num * 2))
+var fun = legofy((num) => Promise.resolve(num * 2))
 
 fun(2)
     .then((res) => {
@@ -61,7 +61,7 @@ fun(2)
 ```
 
 ```js
-var fun = lego(() => 2)
+var fun = legofy(() => 2)
     .then(num => Promise.resolve(num + 1))
     .then(num => num * 2)
     .then(num => num + 3)
@@ -71,7 +71,7 @@ fun()
     })
 ```
 ```js
-var fun = lego(() => Promise.reject("no way"))
+var fun = legofy(() => Promise.reject("no way"))
     .catch(e => {
         e; //"no way"
         return "lol"
@@ -85,7 +85,7 @@ fun()
 Notice how Legos resolve into promises when async blocks found
 
 ```js
-var legoPiece = lego((num) => num * 2)
+var legoPiece = legofy((num) => num * 2)
 
 var legoPiecePlus1 = legoPiece
     .then(num => num + 1)
@@ -98,7 +98,7 @@ legoPiecePlus1(3) //7
 legoPiecePlus2(3) //30
 ```
 ```js
-var legoPiece = lego((num) => num * 2)
+var legoPiece = legofy((num) => num * 2)
 
 var legoPiecePlus = legoPiece
     .then(num => num + 1)
@@ -111,7 +111,7 @@ legoPiecePlus(3) //7
 legoPiecePlusPlus(3) //8
 ```
 ```js
-var legoPiece = lego((num) => Promise.resolve(num * 2))
+var legoPiece = legofy((num) => Promise.resolve(num * 2))
 
 var legoPiecePlus = legoPiece
     .then(num => num + 1)
@@ -135,7 +135,7 @@ legoPiecePlusPlus(3)
     })
 ```
 ```js
-var legoPiece = lego((num) => Promise.resolve(num * 2))
+var legoPiece = legofy((num) => Promise.resolve(num * 2))
 
 var legoPiecePlus1 = legoPiece
     .then(num => num + 1)
@@ -159,7 +159,7 @@ legoPiecePlus2(3)
     })
 ```
 ```js
-var legoPiece = lego(() => { throw new Error("lol") })
+var legoPiece = legofy(() => { throw new Error("lol") })
 
 var legoPiecePlus1 = legoPiece
     .catch(e => {
@@ -177,7 +177,7 @@ legoPiecePlus1() //"lol1"
 legoPiecePlus2() //"lol2"
 ```
 ```js
-var legoPiece = lego(() => { throw new Error("lol") })
+var legoPiece = legofy(() => { throw new Error("lol") })
 
 var legoPiecePlus1 = legoPiece
     .catch(e => {
@@ -201,7 +201,7 @@ legoPiecePlus1() //1
 legoPiecePlus2() //2
 ```
 ```js
-var legoPiece = lego(() => { throw new Error("lol") })
+var legoPiece = legofy(() => { throw new Error("lol") })
 
 var legoPiecePlus1 = legoPiece
     .catch(e => {
@@ -236,7 +236,7 @@ legoPiecePlus2() //undefined
 Notice how legos can be easily extended and exchanged
 
 ```js
-var legoPiece = lego((num) => num * 2)
+var legoPiece = legofy((num) => num * 2)
 
 var legoPiecePlus = legoPiece
     .then(num => Promise.resolve(num + 1))
@@ -251,7 +251,7 @@ legoPiecePlus(3)
     })
 ```
 ```js
-var legoPiece = lego((num) => num * 2)
+var legoPiece = legofy((num) => num * 2)
 
 var legoPiecePlus = legoPiece
     .then(num => Promise.resolve(num + 1))
@@ -276,9 +276,9 @@ legoPiecePlusPlus(3)
 ```
 Notice how legos executes sync till an async step interrupts
 ```js
-var lego1 = lego((num) => num * 2)
+var lego1 = legofy((num) => num * 2)
 
-var lego2 = lego((num) => num + 1)
+var lego2 = legofy((num) => num + 1)
 
 var legoCon1 = lego1.concat(lego2)
 var legoCon2 = lego2.concat(lego1)
@@ -289,9 +289,9 @@ legoCon1(2) //5
 legoCon2(2) //6
 ```
 ```js
-var lego1 = lego((num) => num * 2)
+var lego1 = legofy((num) => num * 2)
 
-var lego2 = lego((num) => Promise.resolve(num + 1))
+var lego2 = legofy((num) => Promise.resolve(num + 1))
 
 var legoCon1 = lego1.concat(lego2)
 var legoCon2 = lego2.concat(lego1)
@@ -311,9 +311,9 @@ legoCon2(2).then((res) => {
 })
 ```
 ```js
-var lego1 = lego(() => { throw new Error("lol") })
+var lego1 = legofy(() => { throw new Error("lol") })
 
-var lego2 = lego((num) => num + 1)
+var lego2 = legofy((num) => num + 1)
     .catch(e => {
         e; //"lol"
         return 5
@@ -339,9 +339,9 @@ lego2(2); //6
 legoCon1(2); //10
 ```
 ```js
-var lego1 = lego(() => Promise.reject("no way"))
+var lego1 = legofy(() => Promise.reject("no way"))
 
-var lego2 = lego((num) => num + 1)
+var lego2 = legofy((num) => num + 1)
     .catch(e => {
         e; //"no way"
         return 5
@@ -368,10 +368,10 @@ legoCon2()
         res; //"no way"
     })
 ```
-- Lego offers you a new pattern of writing modular reusable code that handles both sync and async callbacks to let you focus on building your logic and declare your steps.
+- legofy offers you a new pattern of writing modular reusable code that handles both sync and async callbacks to let you focus on building your logic and declare your steps.
 - Legos can be easily extended and you can literally build your app out of small little legos
 - Legos make your code very declarative beacause each legoPiece kind of represents a step, so it's alot easier for anyone to reason about your logic 
 
 ### License
 
-Lego is [MIT licensed](./LICENSE).
+legofy is [MIT licensed](./LICENSE).

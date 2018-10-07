@@ -1,8 +1,8 @@
 {
-  "name": "lego",
+  "name": "legofy-js",
   "version": "1.0.0",
-  "description": "lego.js is a library for writing interactive procedures",
-  "main": "Lego.test.js",
+  "description": "legofy is a library for writing interactive procedures",
+  "main": "legofy.js",
   "dependencies": {},
   "devDependencies": {
     "jest": "^23.6.0"
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YousifHmada/Lego.git"
+    "url": "git+https://github.com/YousifHmada/legofy.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/YousifHmada/Lego/issues"
+    "url": "https://github.com/YousifHmada/legofy/issues"
   },
-  "homepage": "https://github.com/YousifHmada/Lego#readme"
+  "homepage": "https://github.com/YousifHmada/legofy#readme"
 }

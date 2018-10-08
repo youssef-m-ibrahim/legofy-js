@@ -1,10 +1,26 @@
-# [lego]() &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/YousifHmada/legofy/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/lego.js-core/v/1.0.0)
+# [legofy]() &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/YousifHmada/legofy/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/lego.js-core/v/1.0.0)
 Legofy is a JavaScript library for building modular extendable functions.
 
 * **Declarative:** Legofy let you use your modules in a very declarative way, it makes your code more predictable, simpler to understand, and easier to debug.
 * **Focused:** It handles both Sync and Async modules, so that you only focus on the steps and how to connect different modules.
 * **Promise-like syntax** You'll notice that we used an Promise-like syntax, so that writing it feels like home.
 [Learn how to use legofy in your own project]().
+
+## Getting Started
+
+Use `npm install legofy-js --save` to install the package then use `import` or `require` to get started
+
+```js
+import {legofy} from 'legofy-js';
+
+// ...
+```
+```js
+var legofy = require('legofy-js')
+
+// ...
+
+```
 
 ## Examples
 

@@ -1,7 +1,14 @@
 {
   "name": "legofy-js",
-  "version": "1.0.0",
+  "readmeFilename": "./README.md",
+  "version": "0.0.0",
   "description": "legofy is a library for writing interactive procedures",
+  "keywords": [
+    "legofy",
+    "lego",
+    "declarative",
+    "js"
+  ],
   "main": "legofy.js",
   "dependencies": {},
   "devDependencies": {

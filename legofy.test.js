@@ -1074,3 +1074,34 @@ describe('Reverse method', () => {
         })
     })
 })
+
+describe('Make it array like', () => {
+
+    it('Make it iterable (Example 1)', () => {
+        var legoChunk = legofy(num => num * 1)
+            .then(num => num * 2)
+            .then(num => num * 3)
+
+        var legoPieces = [...legoChunk]
+        expect(legoPieces[0](1)).toBe(1)
+        expect(legoPieces[1](1)).toBe(2)
+        expect(legoPieces[2](1)).toBe(3)
+    })
+
+    it('Have length property', () => {
+        var legoChunk = legofy(num => num * 1)
+            .then(num => num * 2)
+            .then(num => num * 3)
+
+        var legoChunkPlus = legoChunk.catch(e => e)
+
+        var legoChunkCon = legoChunk.concat(legoChunkPlus)
+
+        expect(legoChunk.length).toBe(3)
+        expect(legoChunk.reverse.length).toBe(3)
+        expect(legoChunkPlus.length).toBe(4)
+        expect(legoChunkPlus.reverse.length).toBe(4)
+        expect(legoChunkCon.length).toBe(7)
+    })
+
+})

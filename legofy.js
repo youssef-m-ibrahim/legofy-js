@@ -91,12 +91,21 @@ function wrapLegoShape(legoShape) {
         )
     )
 
+    wrapedFun[Symbol.iterator] = function* () {
+        for (let i = 0; i < legoShape.defArr.length; i++) {
+            yield wrapLegoShape(new LegoShape(legoShape.defArr[i]));
+        }
+    }
+
+    Object.defineProperty(wrapedFun, 'length', {
+        get: () => legoShape.defArr.length
+    })
+
     Object.defineProperty(wrapedFun, 'reverse', {
         get: () => wrapLegoShape(
             legoShape.reverse()
         )
     })
-
 
     wrapedFun[legoShapeRefSymbol] = legoShape
 

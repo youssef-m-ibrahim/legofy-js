@@ -876,3 +876,201 @@ describe('legos concatenation', () => {
     })
 
 })
+
+describe('Reverse method', () => {
+
+    it('Sync happy path (Example1)', () => {
+        var lego = legofy(num => num * 2)
+            .then(num => num + 3)
+
+        expect(lego(2)).toBe(7)
+        expect(lego.reverse(2)).toBe(10)
+    })
+
+    it('Sync happy path (Example2)', () => {
+        var lego = legofy(num => num + 1)
+            .then(num => num * 2)
+            .then(num => num * 3)
+
+        var reverseLego = lego.reverse;
+
+        var reverseLegoPlus = reverseLego.then(num => num + 20)
+
+        var legoPlus = lego.then(num => num + 5)
+
+        expect(lego(2)).toBe(18)
+        expect(reverseLego(2)).toBe(13)
+        expect(legoPlus(2)).toBe(23)
+        expect(reverseLegoPlus(2)).toBe(33)
+
+        lego = legofy(num => num + 1)
+        expect(reverseLego(2)).toBe(13)
+        expect(legoPlus(2)).toBe(23)
+        expect(reverseLegoPlus(2)).toBe(33)
+    })
+
+    it('Sync happy path (Example 3)', () => {
+        var lego = legofy(num => num * 2)
+            .catch(num => num + 3)
+
+        expect(lego(2)).toBe(4)
+        expect(lego.reverse(2)).toBe(4)
+    })
+
+    it('Sync happy path (Example 4)', () => {
+        var lego = legofy(num => num + 1)
+            .catch(num => num * 2)
+            .catch(num => num * 3)
+
+        var reverseLego = lego.reverse;
+
+        var reverseLegoPlus = reverseLego.then(num => num + 20)
+
+        var legoPlus = lego.then(num => num + 5)
+
+        expect(lego(2)).toBe(3)
+        expect(reverseLego(2)).toBe(3)
+        expect(legoPlus(2)).toBe(8)
+        expect(reverseLegoPlus(2)).toBe(23)
+
+        lego = legofy(num => num + 2)
+        expect(lego(2)).toBe(4)
+        expect(reverseLego(2)).toBe(3)
+        expect(legoPlus(2)).toBe(8)
+        expect(reverseLegoPlus(2)).toBe(23)
+    })
+
+
+    it('Async happy path (Example1)', () => {
+        var lego = legofy(num => Promise.resolve(num * 2))
+            .then(num => num + 3)
+
+        Promise.all([
+            lego(2).then((r) => expect(r).toBe(7)),
+            lego.reverse(2).then((r) => expect(r).toBe(10))
+        ])
+    })
+
+    it('Async happy path (Example2)', () => {
+        var lego = legofy(num => Promise.resolve(num + 1))
+            .then(num => num * 2)
+            .then(num => num * 3)
+
+        var reverseLego = lego.reverse;
+
+        var reverseLegoPlus = reverseLego.then(num => num + 20)
+
+        var legoPlus = lego.then(num => num + 5)
+
+        Promise.all([
+            Promise.all([
+                lego(2).then((r) => expect(r).toBe(18)),
+                reverseLego(2).then((r) => expect(r).toBe(13)),
+                legoPlus(2).then((r) => expect(r).toBe(23)),
+                reverseLegoPlus(2).then((r) => expect(r).toBe(33))
+            ]).then(() => {
+                lego = legofy(num => num + 1)
+                return Promise.all([
+                    reverseLego(2).then((r) => expect(r).toBe(13)),
+                    legoPlus(2).then((r) => expect(r).toBe(23)),
+                    reverseLegoPlus(2).then((r) => expect(r).toBe(33))
+                ])
+            })
+        ])
+    })
+
+    it('Async happy path (Example 3)', () => {
+        var lego = legofy(num => Promise.resolve(num * 2))
+            .catch(num => num + 3)
+
+        Promise.all([
+            lego(2).then((r) => expect(r).toBe(4)),
+            lego.reverse(2).then((r) => expect(r).toBe(4))
+        ])
+    })
+
+    it('Async happy path (Example 4)', () => {
+        var lego = legofy(num => Promise.resolve(num + 1))
+            .catch(num => num * 2)
+            .catch(num => num * 3)
+
+        var reverseLego = lego.reverse;
+
+        var reverseLegoPlus = reverseLego.then(num => num + 20)
+
+        var legoPlus = lego.then(num => num + 5)
+        Promise.all([
+            lego(2).then((r) => expect(r).toBe(3)),
+            reverseLego(2).then((r) => expect(r).toBe(3)),
+            legoPlus(2).then((r) => expect(r).toBe(8)),
+            reverseLegoPlus(2).then((r) => expect(r).toBe(23))
+        ]).then(() => {
+            lego = legofy(num => Promise.resolve(num + 2))
+            return Promise.all([
+                lego(2).then((r) => expect(r).toBe(4)),
+                reverseLego(2).then((r) => expect(r).toBe(3)),
+                legoPlus(2).then((r) => expect(r).toBe(8)),
+                reverseLegoPlus(2).then((r) => expect(r).toBe(23))
+            ])
+        })
+
+    })
+
+    it('Sync & Async happy path (Example1)', () => {
+        var lego = legofy(num => num + 1)
+            .then(num => num * 2)
+            .then(num => num * 3)
+
+        var reverseLego = lego.reverse;
+
+        var reverseLegoPlus = reverseLego.then(num => Promise.resolve(num + 20))
+
+        var legoPlus = lego.then(num => num + 5)
+        Promise.all([
+            expect(lego(2)).toBe(18),
+            expect(reverseLego(2)).toBe(13),
+            expect(legoPlus(2)).toBe(23),
+            reverseLegoPlus(2).then((r) => expect(r).toBe(33))
+        ]).then(() => {
+            lego = legofy(num => num + 1)
+            return Promise.all([
+                expect(lego(2)).toBe(3),
+                expect(legoPlus(2)).toBe(23),
+                reverseLegoPlus(2).then((r) => expect(r).toBe(33))
+            ])
+        })
+    })
+
+    it('Sync & Async happy path (Example 3)', () => {
+        var lego = legofy(num => num * 2)
+            .catch(num => num + 3)
+        Promise.all([
+            expect(lego(2)).toBe(4),
+            lego.then((num) => Promise.resolve(num)).reverse(2).then((r) => expect(r).toBe(4))
+        ])
+    })
+
+    it('Sync & Async happy path (Example 4)', () => {
+        var lego = legofy(num => num + 1)
+            .catch(num => num * 2)
+            .catch(num => num * 3)
+
+        var reverseLego = lego.reverse;
+
+        var reverseLegoPlus = reverseLego.then(num => Promise.resolve((num + 20)))
+
+        Promise.all([
+            expect(lego(2)).toBe(3),
+            expect(reverseLego(2)).toBe(3),
+            reverseLegoPlus(2).then((r) => expect(r).toBe(23))
+        ]).then(() => {
+            var legoPlus = lego.then(num => num + 5)
+            lego = legofy(num => Promise.resolve(num + 2))
+            return Promise.all([
+                lego(2).then((r) => expect(r).toBe(4)),
+                expect(reverseLego(2)).toBe(3),
+                reverseLegoPlus(2).then((r) => expect(r).toBe(23))
+            ])
+        })
+    })
+})

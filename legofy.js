@@ -2,6 +2,7 @@ const isCatchBlockSymbol = Symbol("isCatchBlock")
 
 const legoShapeRefSymbol = Symbol("legoShapeRef")
 
+
 function Lego(cb) {
     this.cb = cb
 }
@@ -32,6 +33,11 @@ LegoShape.prototype = {
             defArr: [...this.defArr, ...legoShapes.map(e => e.defArr).reduce(
                 (agg, cur) => [...agg, ...cur], []
             )]
+        })
+    },
+    reverse() {
+        return new LegoShape(undefined, {
+            defArr: this.defArr.slice().reverse()
         })
     },
     resolve(args) {
@@ -84,6 +90,13 @@ function wrapLegoShape(legoShape) {
             wrapedFuns.map(e => e[legoShapeRefSymbol])
         )
     )
+
+    Object.defineProperty(wrapedFun, 'reverse', {
+        get: () => wrapLegoShape(
+            legoShape.reverse()
+        )
+    })
+
 
     wrapedFun[legoShapeRefSymbol] = legoShape
 

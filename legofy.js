@@ -73,6 +73,11 @@ LegoShape.prototype = {
                 }
             }
         }
+
+        if (error) {
+            throw new Error(result)
+        }
+
         return result
     }
 }

@@ -1088,7 +1088,7 @@ describe('Make it array like', () => {
         expect(legoPieces[2](1)).toBe(3)
     })
 
-    it('Have length property', () => {
+    it('Have length property (Example 1)', () => {
         var legoChunk = legofy(num => num * 1)
             .then(num => num * 2)
             .then(num => num * 3)
@@ -1104,4 +1104,76 @@ describe('Make it array like', () => {
         expect(legoChunkCon.length).toBe(7)
     })
 
+    it('Have length property (Example 2)', () => {
+        var legoChunk1 = legofy(num => num * 1)
+            .then(num => num * 2)
+            .then(num => num * 3)
+
+        var legoChunk2 = legofy(num => num * 1)
+            .then(num => num * 2)
+
+        expect(legoChunk1.concat(legoChunk2).length).toBe(5)
+        expect(legoChunk2.concat(legoChunk1).length).toBe(5)
+        expect(legoChunk1.length).toBe(3)
+        expect(legoChunk2.length).toBe(2)
+        expect(legoChunk1.concat(legoChunk2).reverse.length).toBe(5)
+        expect(legoChunk2.concat(legoChunk1).reverse.length).toBe(5)
+    })
+
+})
+
+describe('Another extendable way', () => {
+    it('Should work (Example 1)', () => {
+        var lego1 = legofy((arg) => arg * 2)
+            .then(() => {
+                throw { message: "Nope" }
+            })
+            .catch(() => {
+                throw { message: "Yup" }
+            })
+        var lego2 = legofy((arg) => arg * 2)
+            .then(() => {
+                throw { message: "xDD" }
+            })
+        try {
+            lego1()
+        } catch (e) {
+            expect(e.message).toBe("Yup")
+        }
+        try {
+            lego2
+        } catch (e) {
+            expect(e.message).toBe("xDD")
+        }
+        try {
+            lego1.concat(lego2)()
+        } catch (e) {
+            expect(e.message).toBe("Yup")
+        }
+        try {
+            lego2.concat(lego1)()
+        } catch (e) {
+            expect(e.message).toBe("Yup")
+        }
+        try {
+            lego1.then(lego2)()
+        } catch (e) {
+            expect(e.message).toBe("Yup")
+        }
+        try {
+            lego2.then(lego1)()
+        } catch (e) {
+            expect(e.message).toBe("xDD")
+        }
+        try {
+            lego1.catch(lego2)()
+        } catch (e) {
+            expect(e.message).toBe("xDD")
+        }
+        try {
+            lego2.catch(lego1)()
+        } catch (e) {
+            expect(e.message).toBe("Yup")
+        }
+    })
 })

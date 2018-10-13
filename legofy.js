@@ -16,6 +16,9 @@ function LegoShape(lego, { defArr = [] } = {}) {
     if (lego != undefined) {
         this.defArr.push(lego)
     }
+    return new Proxy(args => this.resolve(args), {
+        get: (obj, key) => this[key]
+    })
 }
 
 LegoShape.prototype = {
@@ -28,16 +31,11 @@ LegoShape.prototype = {
         lego[isCatchBlockSymbol] = true
         return new LegoShape(lego, { defArr: this.defArr })
     },
-    concat(legoShapes) {
+    concat(...legoShapes) {
         return new LegoShape(undefined, {
             defArr: [...this.defArr, ...legoShapes.map(e => e.defArr).reduce(
                 (agg, cur) => [...agg, ...cur], []
             )]
-        })
-    },
-    reverse() {
-        return new LegoShape(undefined, {
-            defArr: this.defArr.slice().reverse()
         })
     },
     resolve(args) {
@@ -79,54 +77,28 @@ LegoShape.prototype = {
         }
 
         return result
-    }
-}
-
-function wrapLegoShape(legoShape) {
-
-    var wrapedFun = (args) => legoShape.resolve(args)
-
-    wrapedFun.then = (cb) => wrapLegoShape(legoShape.then(cb))
-
-    wrapedFun.catch = (cb) => wrapLegoShape(legoShape.catch(cb))
-
-    wrapedFun.concat = (...wrapedFuns) => wrapLegoShape(
-        legoShape.concat(
-            wrapedFuns.map(e => e[legoShapeRefSymbol])
-        )
-    )
-
-    wrapedFun[Symbol.iterator] = function* () {
-        for (let i = 0; i < legoShape.defArr.length; i++) {
-            yield wrapLegoShape(new LegoShape(legoShape.defArr[i]));
+    },
+    get reverse() {
+        return new LegoShape(undefined, {
+            defArr: this.defArr.slice().reverse()
+        })
+    },
+    get length() {
+        return this.defArr.length
+    },
+    [Symbol.iterator]: function* () {
+        for (let i = 0; i < this.defArr.length; i++) {
+            yield new LegoShape(this.defArr[i]);
         }
     }
-
-    Object.defineProperty(wrapedFun, 'length', {
-        get: () => legoShape.defArr.length
-    })
-
-    Object.defineProperty(wrapedFun, 'reverse', {
-        get: () => wrapLegoShape(
-            legoShape.reverse()
-        )
-    })
-
-    wrapedFun[legoShapeRefSymbol] = legoShape
-
-    return wrapedFun
-
 }
 
 function legofy(cb) {
 
-    var legoShape;
-    {
-        var lego = new Lego(cb)
-        legoShape = new LegoShape(lego);
-    }
+    var lego = new Lego(cb)
 
-    return wrapLegoShape(legoShape)
+    return new LegoShape(lego)
+
 }
 
 module.exports = legofy

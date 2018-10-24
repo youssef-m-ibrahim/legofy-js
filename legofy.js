@@ -16,7 +16,7 @@ function LegoShape(lego, { defArr = [] } = {}) {
     if (lego != undefined) {
         this.defArr.push(lego)
     }
-    return new Proxy(args => this.resolve(args), {
+    return new Proxy((...args) => this.resolve(...args), {
         get: (obj, key) => this[key]
     })
 }
@@ -38,10 +38,9 @@ LegoShape.prototype = {
             )]
         })
     },
-    resolve(args) {
+    resolve(...args) {
         var error = false;
-        var result = args;
-
+        var result;
         for (let i = 0; i < this.defArr.length; i++) {
             var lego = this.defArr[i];
 
@@ -63,11 +62,16 @@ LegoShape.prototype = {
             } else {
                 if (!lego[isCatchBlockSymbol]) {
                     try {
-                        result = lego.cb(result)
+                        if (args !== null) {
+                            result = lego.cb(...args)
+                        } else {
+                            result = lego.cb(result)
+                        }
                     } catch (e) {
                         error = true
                         result = e.message
                     }
+                    args = null
                 }
             }
         }

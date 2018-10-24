@@ -1177,3 +1177,10 @@ describe('Another extendable way', () => {
         }
     })
 })
+
+describe('It should pass all arguments', () => {
+    it('Happy path', () => {
+        var result = legofy((...a) => a.reduce((a, c) => a + c, 0))
+        expect(result(2, 5, 5)).toBe(12)
+    })
+})

@@ -1,4 +1,4 @@
-# [legofy]() &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/YousifHmada/legofy/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/lego.js-core/v/1.0.0)
+# [legofy]() &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/YousifHmada/legofy/blob/master/LICENSE) [![npm version](https://img.shields.io/npm/v/react.svg?style=flat)](https://www.npmjs.com/package/legofy-js)
 Legofy is a JavaScript library for building modular extendable functions.
 
 * **Declarative:** Legofy let you use your modules in a very declarative way, it makes your code more predictable, simpler to understand, and easier to debug.

@@ -1,5 +1,5 @@
 const isCatchBlockSymbol = Symbol("isCatchBlock")
-
+const isAnyBlockSymbol = Symbol("isAnyBlock")
 const legoShapeRefSymbol = Symbol("legoShapeRef")
 
 
@@ -31,6 +31,11 @@ LegoShape.prototype = {
         lego[isCatchBlockSymbol] = true
         return new LegoShape(lego, { defArr: this.defArr })
     },
+    any(cb) {
+        var lego = new Lego(cb)
+        lego[isAnyBlockSymbol] = true
+        return new LegoShape(lego, { defArr: this.defArr })
+    },
     concat(...legoShapes) {
         return new LegoShape(undefined, {
             defArr: [...this.defArr, ...legoShapes.map(e => e.defArr).reduce(
@@ -45,7 +50,7 @@ LegoShape.prototype = {
             var lego = this.defArr[i];
 
             if (error) {
-                if (lego[isCatchBlockSymbol]) {
+                if (lego[isCatchBlockSymbol] || lego[isAnyBlockSymbol]) {
                     error = false
                     try {
                         result = lego.cb(result)
@@ -58,7 +63,8 @@ LegoShape.prototype = {
             }
 
             if (result !== undefined && result.then && result.catch) {
-                result = lego[isCatchBlockSymbol] ? result.catch(lego.cb) : result.then(lego.cb)
+                result = (lego[isCatchBlockSymbol] || lego[isAnyBlockSymbol]) ?
+                    result.catch(lego.cb) : result.then(lego.cb)
             } else {
                 if (!lego[isCatchBlockSymbol]) {
                     try {

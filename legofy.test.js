@@ -1184,3 +1184,77 @@ describe('It should pass all arguments', () => {
         expect(result(2, 5, 5)).toBe(12)
     })
 })
+
+describe('.any functionality', () => {
+    it('Happy path (Example 1)', (done) => {
+        (
+            legofy(() => {
+                return 265
+            })
+                .any(() => {
+                    return true
+                })
+                .then((r) => {
+                    expect(r).toBe(true)
+                    done()
+                })
+        )()
+    })
+    it('Happy path (Example 2)', (done) => {
+        (
+            legofy(() => {
+                return 265
+            })
+                .any(() => {
+                    return Promise.resolve(true)
+                })
+                .then((r) => {
+                    expect(r).toBe(true)
+                    done()
+                })
+        )()
+    })
+    it('not so happy (Example 1)', (done) => {
+        (
+            legofy(() => {
+                throw new Error()
+            })
+                .any(() => {
+                    return true
+                })
+                .then((r) => {
+                    expect(r).toBe(true)
+                    done()
+                })
+        )()
+    })
+    it('not so happy (Example 2)', (done) => {
+        (
+            legofy(() => {
+                throw new Error()
+            })
+                .any(() => {
+                    return Promise.resolve(true)
+                })
+                .then((r) => {
+                    expect(r).toBe(true)
+                    done()
+                })
+        )()
+    })
+
+    it('not so happy (Example 3)', (done) => {
+        (
+            legofy(() => {
+                return Promise.reject()
+            })
+                .any(() => {
+                    return Promise.resolve(true)
+                })
+                .then((r) => {
+                    expect(r).toBe(true)
+                    done()
+                })
+        )()
+    })
+})

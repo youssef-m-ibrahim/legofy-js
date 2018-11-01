@@ -1,7 +1,7 @@
 {
   "name": "legofy-js",
   "readmeFilename": "./README.md",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "legofy is a library for writing interactive procedures",
   "keywords": [
     "legofy",

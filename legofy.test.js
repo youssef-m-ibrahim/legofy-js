@@ -1,4 +1,4 @@
-const legofy = require('./legofy')
+const legofy = require('./exp')
 
 describe('It should act in a Sync fashion', () => {
 
@@ -265,7 +265,7 @@ describe('It should act in a Sync fashion', () => {
 
 })
 
-describe('It should act in an Async fashion', () => {
+describe.only('It should act in an Async fashion', () => {
 
     it('should resolve right (Example 1)', (done) => {
         var lego = legofy((num) => Promise.resolve(num * 2))
@@ -278,6 +278,8 @@ describe('It should act in an Async fashion', () => {
 
     it('should resolve right (Example 2)', (done) => {
         var lego = legofy(() => Promise.resolve(2))
+        // lego // Lego/Stage Function (pipelinable/extendable)
+        // lego() // Value/Function (no Pipeline)
         lego()
             .then((res) => {
                 expect(res).toBe(2)
@@ -310,7 +312,7 @@ describe('It should act in an Async fashion', () => {
             })
     })
 
-    it('should reject (Example 2)', (done) => {
+    it.only('should reject (Example 2)', (done) => {
         var lego = legofy(() => { return Promise.reject("no way") })
             .catch(e => {
                 expect(e).toBe("no way")

@@ -14,7 +14,7 @@ Lego.prototype = {
 function LegoShape(lego, { defArr = [] } = {}) {
     this.defArr = [...defArr]
     if (lego != undefined) {
-        this.defArr.push(lego)
+        this.defArr.push({ lego, type: 'FORWARD' })
     }
     return new Proxy((...args) => this.resolve(...args), {
         get: (obj, key) => this[key]
